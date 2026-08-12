@@ -346,39 +346,81 @@
           <div class="card-hint">Pick from the list, or type any ticker and press enter. Prices appear on trading days only — weekends skip this section.</div>
           <select id="stockPicker">
             <option value="">Add a stock…</option>
-            <optgroup label="India (NSE)">
-              <option value="RELIANCE:NSE">Reliance Industries</option>
-              <option value="TCS:NSE">Tata Consultancy</option>
-              <option value="INFY:NSE">Infosys</option>
+            <optgroup label="India — Indices &amp; ETFs">
+              <option value="NIFTY50:NSE">Nifty 50 (Index)</option>
+              <option value="SENSEX:BSE">BSE Sensex (Index)</option>
+              <option value="NIFTYBEES:NSE">Nifty 50 ETF (NIFTYBEES)</option>
+              <option value="BANKBEES:NSE">Bank Nifty ETF (BANKBEES)</option>
+              <option value="GOLDBEES:NSE">Gold ETF (GOLDBEES)</option>
+              <option value="JUNIORBEES:NSE">Nifty Next 50 ETF (JUNIORBEES)</option>
+            </optgroup>
+            <optgroup label="India — Banking &amp; Finance">
               <option value="HDFCBANK:NSE">HDFC Bank</option>
               <option value="ICICIBANK:NSE">ICICI Bank</option>
               <option value="SBIN:NSE">State Bank of India</option>
-              <option value="BHARTIARTL:NSE">Bharti Airtel</option>
-              <option value="ITC:NSE">ITC</option>
+              <option value="KOTAKBANK:NSE">Kotak Mahindra Bank</option>
+              <option value="AXISBANK:NSE">Axis Bank</option>
+              <option value="BAJFINANCE:NSE">Bajaj Finance</option>
             </optgroup>
-            <optgroup label="US — Tech">
+            <optgroup label="India — IT Services">
+              <option value="TCS:NSE">Tata Consultancy</option>
+              <option value="INFY:NSE">Infosys</option>
+              <option value="WIPRO:NSE">Wipro</option>
+              <option value="HCLTECH:NSE">HCL Technologies</option>
+              <option value="TECHM:NSE">Tech Mahindra</option>
+            </optgroup>
+            <optgroup label="India — Energy, Infra &amp; Telecom">
+              <option value="RELIANCE:NSE">Reliance Industries</option>
+              <option value="ONGC:NSE">ONGC</option>
+              <option value="NTPC:NSE">NTPC</option>
+              <option value="POWERGRID:NSE">Power Grid Corp</option>
+              <option value="ADANIENT:NSE">Adani Enterprises</option>
+              <option value="ADANIPORTS:NSE">Adani Ports</option>
+              <option value="BHARTIARTL:NSE">Bharti Airtel</option>
+            </optgroup>
+            <optgroup label="India — Consumer &amp; FMCG">
+              <option value="HINDUNILVR:NSE">Hindustan Unilever</option>
+              <option value="ITC:NSE">ITC</option>
+              <option value="NESTLEIND:NSE">Nestlé India</option>
+              <option value="TITAN:NSE">Titan Company</option>
+              <option value="ASIANPAINT:NSE">Asian Paints</option>
+            </optgroup>
+            <optgroup label="India — Auto &amp; Industrials">
+              <option value="MARUTI:NSE">Maruti Suzuki</option>
+              <option value="TATAMOTORS:NSE">Tata Motors</option>
+              <option value="M&amp;M:NSE">Mahindra &amp; Mahindra</option>
+              <option value="BAJAJ-AUTO:NSE">Bajaj Auto</option>
+              <option value="LT:NSE">Larsen &amp; Toubro</option>
+            </optgroup>
+            <optgroup label="US — Technology">
               <option value="AAPL">Apple (AAPL)</option>
               <option value="MSFT">Microsoft (MSFT)</option>
-              <option value="GOOGL">Alphabet (GOOGL)</option>
-              <option value="AMZN">Amazon (AMZN)</option>
-              <option value="META">Meta (META)</option>
               <option value="NVDA">NVIDIA (NVDA)</option>
-              <option value="TSLA">Tesla (TSLA)</option>
-              <option value="AMD">AMD (AMD)</option>
-              <option value="INTC">Intel (INTC)</option>
-              <option value="CRM">Salesforce (CRM)</option>
-              <option value="ORCL">Oracle (ORCL)</option>
-              <option value="PLTR">Palantir (PLTR)</option>
             </optgroup>
-            <optgroup label="US — Finance &amp; other">
+            <optgroup label="US — Communication &amp; Internet">
+              <option value="GOOGL">Alphabet (GOOGL)</option>
+              <option value="META">Meta (META)</option>
+              <option value="NFLX">Netflix (NFLX)</option>
+            </optgroup>
+            <optgroup label="US — Financials">
               <option value="JPM">JPMorgan Chase (JPM)</option>
               <option value="GS">Goldman Sachs (GS)</option>
-              <option value="BRK.B">Berkshire Hathaway (BRK.B)</option>
               <option value="V">Visa (V)</option>
-              <option value="MA">Mastercard (MA)</option>
+            </optgroup>
+            <optgroup label="US — Consumer">
+              <option value="AMZN">Amazon (AMZN)</option>
               <option value="WMT">Walmart (WMT)</option>
+              <option value="TSLA">Tesla (TSLA)</option>
+            </optgroup>
+            <optgroup label="US — Healthcare">
               <option value="JNJ">Johnson &amp; Johnson (JNJ)</option>
+              <option value="UNH">UnitedHealth (UNH)</option>
+              <option value="PFE">Pfizer (PFE)</option>
+            </optgroup>
+            <optgroup label="US — Energy">
               <option value="XOM">Exxon Mobil (XOM)</option>
+              <option value="CVX">Chevron (CVX)</option>
+              <option value="COP">ConocoPhillips (COP)</option>
             </optgroup>
             <optgroup label="US — Index ETFs">
               <option value="SPY">S&amp;P 500 (SPY)</option>
