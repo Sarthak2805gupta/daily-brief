@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Brief — Setup</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+      :root {
+        --bg: #0a0b0f;
+        --glow: #1b2140;
+        --surface: #12141b;
+        --surface-2: #191c25;
+        --border: #232734;
+        --border-strong: #2f3444;
+        --accent: #7c8cff;
+        --accent-soft: rgba(124, 140, 255, 0.13);
+        --accent-hover: #94a1ff;
+        --text: #e9ebf2;
+        --dim: #8b93a7;
+        --faint: #5a6175;
+        --danger: #ff6b6b;
+        --ok: #4ade80;
+        --radius: 12px;
+        --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        background-image: radial-gradient(900px 420px at 50% -140px, var(--glow) 0%, transparent 70%);
+        color: var(--text);
+        font-family: var(--font);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 64px 20px 96px;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page { width: 100%; max-width: 580px; }
+
+      /* ---------- header ---------- */
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 28px;
+      }
+
+      .mark {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: linear-gradient(140deg, var(--accent) 0%, #4d5bd6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .mark span {
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        background: #0a0b0f;
+      }
+
+      .brand-name {
+        font-size: 13.5px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      h1 {
+        font-size: 34px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+        margin: 0 0 12px 0;
+      }
+
+      .sub {
+        color: var(--dim);
+        font-size: 15px;
+        line-height: 1.6;
+        margin: 0 0 36px 0;
+      }
+
+      /* ---------- cards ---------- */
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px;
+        margin-bottom: 14px;
+      }
+
+      .card-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        letter-spacing: -0.005em;
+        margin-bottom: 3px;
+      }
+
+      .card-hint {
+        font-size: 12.5px;
+        color: var(--faint);
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      label.field-label {
+        display: block;
+        font-size: 12.5px;
+        color: var(--dim);
+        margin-bottom: 7px;
+      }
+
+      /* ---------- inputs ---------- */
+
+      input[type="text"],
+      input[type="email"],
+      input[type="time"],
+      select {
+        width: 100%;
+        background: var(--surface-2);
+        border: 1px solid var(--border-strong);
+        border-radius: 9px;
+        padding: 11px 13px;
+        color: var(--text);
+        font-size: 14.5px;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="time"]:focus,
+      select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+
+      input::placeholder { color: var(--faint); }
+
+      input[type="time"] { color-scheme: dark; }
+
+      input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.55);
+        cursor: pointer;
+      }
+
+      select {
+        appearance: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='%238b93a7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+      }
+
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      /* ---------- chips ---------- */
+
+      .chip-box {
+        background: var(--surface-2);
+        border: 1px solid var(--border-strong);
+        border-radius: 9px;
+        padding: 7px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        min-height: 46px;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      .chip-box:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+      }
+
+      .chip {
+        font-size: 12.5px;
+        font-weight: 500;
+        background: var(--accent-soft);
+        border: 1px solid rgba(124, 140, 255, 0.32);
+        color: var(--accent);
+        padding: 5px 7px 5px 10px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .chip button {
+        background: none;
+        border: none;
+        color: rgba(124, 140, 255, 0.6);
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+        transition: color 0.12s;
+      }
+
+      .chip button:hover { color: var(--danger); }
+
+      .chip-input {
+        flex: 1;
+        min-width: 120px;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 14px;
+        padding: 6px 4px;
+      }
+
+      .chip-input::placeholder { color: var(--faint); }
+
+      /* ---------- toggles ---------- */
+
+      .toggle-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .toggle {
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border-strong);
+        background: var(--surface-2);
+        color: var(--dim);
+        cursor: pointer;
+        transition: all 0.15s;
+        user-select: none;
+      }
+
+      .toggle:hover { border-color: var(--faint); color: var(--text); }
+
+      .toggle.active {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* ---------- submit ---------- */
+
+      .submit-row { margin-top: 24px; }
+
+      button.submit {
+        width: 100%;
+        background: var(--accent);
+        color: #0a0b0f;
+        border: none;
+        border-radius: 9px;
+        padding: 13px;
+        font-size: 14.5px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        letter-spacing: -0.01em;
+        transition: background 0.15s, transform 0.06s;
+      }
+
+      button.submit:hover { background: var(--accent-hover); }
+      button.submit:active { transform: translateY(1px); }
+
+      button.submit:disabled {
+        background: var(--border-strong);
+        color: var(--faint);
+        cursor: not-allowed;
+      }
+
+      .status {
+        margin-top: 14px;
+        font-size: 13.5px;
+        line-height: 1.5;
+        text-align: center;
+        min-height: 18px;
+        color: var(--dim);
+      }
+
+      .status.ok { color: var(--ok); }
+      .status.err { color: var(--danger); }
+
+      @media (max-width: 480px) {
+        body { padding: 40px 16px 72px; }
+        h1 { font-size: 28px; }
+        .row2 { grid-template-columns: 1fr; gap: 14px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+
+      <div class="brand">
+        <div class="mark"><span></span></div>
+        <div class="brand-name">Daily Brief</div>
+      </div>
+
+      <h1>Your morning, condensed.</h1>
+      <p class="sub">Markets and headlines you actually track, written up as one tight brief and delivered every morning. No digest padding, no filler.</p>
+
+      <form id="configForm">
+
+        <div class="card">
+          <div class="card-title">Delivery</div>
+          <div class="card-hint">Where it lands, and when.</div>
+          <div class="row2">
+            <div>
+              <label class="field-label" for="name">Name</label>
+              <input type="text" id="name" placeholder="Sarthak" required>
+            </div>
+            <div>
+              <label class="field-label" for="email">Email</label>
+              <input type="email" id="email" placeholder="you@email.com" required>
+            </div>
+          </div>
+          <label class="field-label" for="sendTime">Send time (IST)</label>
+          <input type="time" id="sendTime" value="07:00" step="300" required>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Stock watchlist</div>
+          <div class="card-hint">Pick from the list, or type any ticker and press enter. Prices appear on trading days only — weekends skip this section.</div>
+          <select id="stockPicker">
+            <option value="">Add a stock…</option>
+            <optgroup label="US — Tech">
+              <option value="AAPL">Apple (AAPL)</option>
+              <option value="MSFT">Microsoft (MSFT)</option>
+              <option value="GOOGL">Alphabet (GOOGL)</option>
+              <option value="AMZN">Amazon (AMZN)</option>
+              <option value="META">Meta (META)</option>
+              <option value="NVDA">NVIDIA (NVDA)</option>
+              <option value="TSLA">Tesla (TSLA)</option>
+              <option value="AMD">AMD (AMD)</option>
+              <option value="INTC">Intel (INTC)</option>
+              <option value="CRM">Salesforce (CRM)</option>
+              <option value="ORCL">Oracle (ORCL)</option>
+              <option value="PLTR">Palantir (PLTR)</option>
+            </optgroup>
+            <optgroup label="US — Finance &amp; other">
+              <option value="JPM">JPMorgan Chase (JPM)</option>
+              <option value="GS">Goldman Sachs (GS)</option>
+              <option value="BRK.B">Berkshire Hathaway (BRK.B)</option>
+              <option value="V">Visa (V)</option>
+              <option value="MA">Mastercard (MA)</option>
+              <option value="WMT">Walmart (WMT)</option>
+              <option value="JNJ">Johnson &amp; Johnson (JNJ)</option>
+              <option value="XOM">Exxon Mobil (XOM)</option>
+            </optgroup>
+            <optgroup label="Index ETFs">
+              <option value="SPY">S&amp;P 500 (SPY)</option>
+              <option value="QQQ">Nasdaq 100 (QQQ)</option>
+              <option value="DIA">Dow Jones (DIA)</option>
+              <option value="IWM">Russell 2000 (IWM)</option>
+            </optgroup>
+            <optgroup label="India (NSE)">
+              <option value="RELIANCE:NSE">Reliance Industries</option>
+              <option value="TCS:NSE">Tata Consultancy</option>
+              <option value="INFY:NSE">Infosys</option>
+              <option value="HDFCBANK:NSE">HDFC Bank</option>
+              <option value="ICICIBANK:NSE">ICICI Bank</option>
+              <option value="SBIN:NSE">State Bank of India</option>
+              <option value="BHARTIARTL:NSE">Bharti Airtel</option>
+              <option value="ITC:NSE">ITC</option>
+            </optgroup>
+          </select>
+          <div class="chip-box" id="watchlistBox" style="margin-top:10px;">
+            <input class="chip-input" placeholder="or type a ticker…" id="watchlistInput">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Coverage</div>
+          <div class="card-hint">Each one becomes its own section in the brief.</div>
+          <div class="toggle-grid" id="categorySelect">
+            <div class="toggle" data-value="world">World</div>
+            <div class="toggle" data-value="tech">Tech</div>
+            <div class="toggle" data-value="ai">AI</div>
+            <div class="toggle" data-value="business">Business</div>
+            <div class="toggle" data-value="science">Science</div>
+            <div class="toggle" data-value="sports">Sports</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Country news</div>
+          <div class="card-hint">Two-letter country code, then enter — in, us, gb, jp.</div>
+          <div class="chip-box" id="countryBox">
+            <input class="chip-input" placeholder="add a country…" id="countryInput">
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="submit" id="submitBtn">Start my brief</button>
+          <div class="status" id="status"></div>
+        </div>
+
+      </form>
+    </div>
+
+    <script>
+      // ==========================================================
+      // SUPABASE CONFIG
+      // Both values come from Supabase Dashboard → Settings → API.
+      // The anon key is designed to be public and shipped to the
+      // browser; access is controlled by Row Level Security on the
+      // `subscribers` table, not by keeping this secret.
+      // ==========================================================
+      const SUPABASE_URL = "https://lblvzdwmunrtwubjweqk.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxibHZ6ZHdtdW5ydHd1Ymp3ZXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU2MDQ2MzgsImV4cCI6MjEwMTE4MDYzOH0.Ri-uhF3vXFbD2KgttLveKrs5hnLyVFntdFkW2JEietg";
+      // ==========================================================
+
+      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // ---- stock watchlist ----
+      const watchlist = []; // [{ symbol, exchange }]
+
+      function renderWatchlist() {
+        const box = document.getElementById("watchlistBox");
+        const inputEl = document.getElementById("watchlistInput");
+        box.querySelectorAll(".chip").forEach(c => c.remove());
+        watchlist.forEach((w, i) => {
+          const label = w.exchange ? `${w.symbol}:${w.exchange}` : w.symbol;
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.innerHTML = `${label} <button type="button" aria-label="Remove ${label}">×</button>`;
+          chip.querySelector("button").onclick = () => { watchlist.splice(i, 1); renderWatchlist(); };
+          box.insertBefore(chip, inputEl);
+        });
+      }
+
+      function addSymbol(raw) {
+        const val = String(raw).trim().toUpperCase();
+        if (!val) return;
+        const [symbol, exchange] = val.includes(":") ? val.split(":") : [val, ""];
+        if (!watchlist.some(w => w.symbol === symbol && w.exchange === exchange)) {
+          watchlist.push({ symbol, exchange });
+          renderWatchlist();
+        }
+      }
+
+      document.getElementById("stockPicker").addEventListener("change", (e) => {
+        addSymbol(e.target.value);
+        e.target.value = "";
+      });
+
+      document.getElementById("watchlistInput").addEventListener("keydown", (e) => {
+        const inputEl = e.target;
+        if (e.key === "Enter") {
+          e.preventDefault();
+          addSymbol(inputEl.value);
+          inputEl.value = "";
+        } else if (e.key === "Backspace" && !inputEl.value) {
+          watchlist.pop();
+          renderWatchlist();
+        }
+      });
+
+      // ---- countries ----
+      const countries = [];
+
+      function renderCountries() {
+        const box = document.getElementById("countryBox");
+        const inputEl = document.getElementById("countryInput");
+        box.querySelectorAll(".chip").forEach(c => c.remove());
+        countries.forEach((code, i) => {
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.innerHTML = `${code} <button type="button" aria-label="Remove ${code}">×</button>`;
+          chip.querySelector("button").onclick = () => { countries.splice(i, 1); renderCountries(); };
+          box.insertBefore(chip, inputEl);
+        });
+      }
+
+      document.getElementById("countryInput").addEventListener("keydown", (e) => {
+        const inputEl = e.target;
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const val = inputEl.value.trim().toLowerCase();
+          if (val && val.length <= 3 && !countries.includes(val)) {
+            countries.push(val);
+            inputEl.value = "";
+            renderCountries();
+          }
+        } else if (e.key === "Backspace" && !inputEl.value) {
+          countries.pop();
+          renderCountries();
+        }
+      });
+
+      // ---- coverage toggles ----
+      const categories = new Set();
+      document.querySelectorAll(".toggle").forEach(el => {
+        el.addEventListener("click", () => {
+          const val = el.dataset.value;
+          if (categories.has(val)) {
+            categories.delete(val);
+            el.classList.remove("active");
+          } else {
+            categories.add(val);
+            el.classList.add("active");
+          }
+        });
+      });
+
+      // ---- submit ----
+      document.getElementById("configForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("submitBtn");
+        const status = document.getElementById("status");
+
+        if (!categories.size && !watchlist.length && !countries.length) {
+          status.textContent = "Pick at least one stock, category, or country — otherwise the brief has nothing to report.";
+          status.className = "status err";
+          return;
+        }
+
+        btn.disabled = true;
+        status.textContent = "Saving…";
+        status.className = "status";
+
+        // "HH:MM" → hour + 5-minute slot, matching the dispatcher's cadence.
+        const [rawH, rawM] = document.getElementById("sendTime").value.split(":");
+        const sendHour = parseInt(rawH, 10);
+        const sendMinute = Math.floor(parseInt(rawM, 10) / 5) * 5;
+
+        const payload = {
+          name: document.getElementById("name").value.trim(),
+          email: document.getElementById("email").value.trim().toLowerCase(),
+          send_hour: sendHour,
+          send_minute: sendMinute,
+          stock_watchlist: watchlist,
+          news_categories: Array.from(categories),
+          news_countries: countries,
+          active: true
+        };
+
+        // Insert, not upsert: RLS deliberately blocks UPDATE, because the form
+        // can't prove you own an address. An upsert would let anyone overwrite
+        // another subscriber's settings just by typing their email.
+        const save = (body) => supabaseClient.from("subscribers").insert(body);
+
+        try {
+          let { error } = await save(payload);
+
+          // `send_minute` only exists after setup.sql has been run. Until then,
+          // save everything else rather than failing the whole submission.
+          let minuteDropped = false;
+          if (error && /send_minute/.test(error.message || "")) {
+            const { send_minute, ...withoutMinute } = payload;
+            ({ error } = await save(withoutMinute));
+            minuteDropped = !error;
+          }
+
+          // 23505 = unique violation, i.e. this address is already signed up.
+          if (error && (error.code === "23505" || /duplicate key/i.test(error.message || ""))) {
+            status.textContent = "That email is already subscribed.";
+            status.className = "status err";
+            return;
+          }
+
+          if (error) throw error;
+
+          const hh = String(sendHour).padStart(2, "0");
+          const mm = String(sendMinute).padStart(2, "0");
+          // The caveat only matters if a non-zero minute was actually requested;
+          // at :00 the fallback lands on the same time anyway.
+          const timeChanged = minuteDropped && sendMinute !== 0;
+          status.textContent = timeChanged
+            ? `Saved — but it'll arrive at ${hh}:00, not ${hh}:${mm} (minute scheduling isn't enabled on the database yet).`
+            : `You're set. First brief arrives at ${hh}:${mm} IST.`;
+          status.className = timeChanged ? "status" : "status ok";
+        } catch (err) {
+          status.textContent = `Couldn't save — ${err.message || "check the console for details."}`;
+          status.className = "status err";
+          console.error(err);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+
+</html>
