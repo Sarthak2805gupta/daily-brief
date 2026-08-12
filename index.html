@@ -4,19 +4,19 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Brief — Setup</title>
+    <title>Prabhat — Setup</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
       :root {
         --bg: #0a0b0f;
-        --glow: #1b2140;
+        --glow: #1a1a1f;
         --surface: #12141b;
         --surface-2: #191c25;
         --border: #232734;
         --border-strong: #2f3444;
-        --accent: #7c8cff;
-        --accent-soft: rgba(124, 140, 255, 0.13);
-        --accent-hover: #94a1ff;
+        --accent: #c9cdd9;
+        --accent-soft: rgba(201, 205, 217, 0.12);
+        --accent-hover: #e7e9ee;
         --text: #e9ebf2;
         --dim: #8b93a7;
         --faint: #5a6175;
@@ -56,7 +56,7 @@
         width: 26px;
         height: 26px;
         border-radius: 7px;
-        background: linear-gradient(140deg, var(--accent) 0%, #4d5bd6 100%);
+        background: linear-gradient(140deg, #e9ebf2 0%, #8f95a3 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -197,7 +197,7 @@
         font-size: 12.5px;
         font-weight: 500;
         background: var(--accent-soft);
-        border: 1px solid rgba(124, 140, 255, 0.32);
+        border: 1px solid rgba(201, 205, 217, 0.35);
         color: var(--accent);
         padding: 5px 7px 5px 10px;
         border-radius: 7px;
@@ -210,7 +210,7 @@
       .chip button {
         background: none;
         border: none;
-        color: rgba(124, 140, 255, 0.6);
+        color: rgba(201, 205, 217, 0.65);
         cursor: pointer;
         font-size: 14px;
         line-height: 1;
@@ -316,7 +316,7 @@
 
       <div class="brand">
         <div class="mark"><span></span></div>
-        <div class="brand-name">Daily Brief</div>
+        <div class="brand-name">Prabhat</div>
       </div>
 
       <h1>Your morning, condensed.</h1>
@@ -346,6 +346,16 @@
           <div class="card-hint">Pick from the list, or type any ticker and press enter. Prices appear on trading days only — weekends skip this section.</div>
           <select id="stockPicker">
             <option value="">Add a stock…</option>
+            <optgroup label="India (NSE)">
+              <option value="RELIANCE:NSE">Reliance Industries</option>
+              <option value="TCS:NSE">Tata Consultancy</option>
+              <option value="INFY:NSE">Infosys</option>
+              <option value="HDFCBANK:NSE">HDFC Bank</option>
+              <option value="ICICIBANK:NSE">ICICI Bank</option>
+              <option value="SBIN:NSE">State Bank of India</option>
+              <option value="BHARTIARTL:NSE">Bharti Airtel</option>
+              <option value="ITC:NSE">ITC</option>
+            </optgroup>
             <optgroup label="US — Tech">
               <option value="AAPL">Apple (AAPL)</option>
               <option value="MSFT">Microsoft (MSFT)</option>
@@ -370,21 +380,11 @@
               <option value="JNJ">Johnson &amp; Johnson (JNJ)</option>
               <option value="XOM">Exxon Mobil (XOM)</option>
             </optgroup>
-            <optgroup label="Index ETFs">
+            <optgroup label="US — Index ETFs">
               <option value="SPY">S&amp;P 500 (SPY)</option>
               <option value="QQQ">Nasdaq 100 (QQQ)</option>
               <option value="DIA">Dow Jones (DIA)</option>
               <option value="IWM">Russell 2000 (IWM)</option>
-            </optgroup>
-            <optgroup label="India (NSE)">
-              <option value="RELIANCE:NSE">Reliance Industries</option>
-              <option value="TCS:NSE">Tata Consultancy</option>
-              <option value="INFY:NSE">Infosys</option>
-              <option value="HDFCBANK:NSE">HDFC Bank</option>
-              <option value="ICICIBANK:NSE">ICICI Bank</option>
-              <option value="SBIN:NSE">State Bank of India</option>
-              <option value="BHARTIARTL:NSE">Bharti Airtel</option>
-              <option value="ITC:NSE">ITC</option>
             </optgroup>
           </select>
           <div class="chip-box" id="watchlistBox" style="margin-top:10px;">
@@ -407,9 +407,46 @@
 
         <div class="card">
           <div class="card-title">Country news</div>
-          <div class="card-hint">Two-letter country code, then enter — in, us, gb, jp.</div>
-          <div class="chip-box" id="countryBox">
-            <input class="chip-input" placeholder="add a country…" id="countryInput">
+          <div class="card-hint">Pick a country, or type its name and press enter.</div>
+          <select id="countryPicker">
+            <option value="">Add a country…</option>
+            <optgroup label="South Asia">
+              <option value="in">India</option>
+              <option value="pk">Pakistan</option>
+              <option value="bd">Bangladesh</option>
+              <option value="lk">Sri Lanka</option>
+              <option value="np">Nepal</option>
+            </optgroup>
+            <optgroup label="Global">
+              <option value="us">United States</option>
+              <option value="gb">United Kingdom</option>
+              <option value="ae">United Arab Emirates</option>
+              <option value="sg">Singapore</option>
+              <option value="au">Australia</option>
+              <option value="ca">Canada</option>
+              <option value="cn">China</option>
+              <option value="jp">Japan</option>
+              <option value="kr">South Korea</option>
+              <option value="de">Germany</option>
+              <option value="fr">France</option>
+              <option value="ru">Russia</option>
+              <option value="br">Brazil</option>
+              <option value="za">South Africa</option>
+              <option value="sa">Saudi Arabia</option>
+              <option value="il">Israel</option>
+              <option value="id">Indonesia</option>
+              <option value="my">Malaysia</option>
+              <option value="nz">New Zealand</option>
+              <option value="mx">Mexico</option>
+              <option value="eg">Egypt</option>
+              <option value="it">Italy</option>
+              <option value="es">Spain</option>
+              <option value="nl">Netherlands</option>
+              <option value="ch">Switzerland</option>
+            </optgroup>
+          </select>
+          <div class="chip-box" id="countryBox" style="margin-top:10px;">
+            <input class="chip-input" placeholder="or type a country…" id="countryInput">
           </div>
         </div>
 
@@ -480,31 +517,63 @@
       });
 
       // ---- countries ----
-      const countries = [];
+      // Stored as { code, name } so chips can show a readable name while the
+      // backend (NewsData's `country=` param) still gets the ISO code it needs.
+      const countries = []; // [{ code, name }]
+
+      // Built from the <option> list itself, so typing "india" in the free-text
+      // fallback resolves to the same name/code the dropdown would have given.
+      const COUNTRY_NAME_TO_CODE = {};
+      const COUNTRY_CODE_TO_NAME = {};
+      document.querySelectorAll("#countryPicker option[value]").forEach(opt => {
+        if (!opt.value) return;
+        COUNTRY_NAME_TO_CODE[opt.textContent.trim().toLowerCase()] = opt.value;
+        COUNTRY_CODE_TO_NAME[opt.value] = opt.textContent.trim();
+      });
 
       function renderCountries() {
         const box = document.getElementById("countryBox");
         const inputEl = document.getElementById("countryInput");
         box.querySelectorAll(".chip").forEach(c => c.remove());
-        countries.forEach((code, i) => {
+        countries.forEach((c, i) => {
           const chip = document.createElement("span");
           chip.className = "chip";
-          chip.innerHTML = `${code} <button type="button" aria-label="Remove ${code}">×</button>`;
+          chip.innerHTML = `${c.name} <button type="button" aria-label="Remove ${c.name}">×</button>`;
           chip.querySelector("button").onclick = () => { countries.splice(i, 1); renderCountries(); };
           box.insertBefore(chip, inputEl);
         });
       }
 
+      function addCountry(raw) {
+        const val = String(raw).trim();
+        if (!val) return;
+        const lower = val.toLowerCase();
+        // Already a known ISO code (picker always sends one of these)…
+        let code = COUNTRY_CODE_TO_NAME[lower] ? lower : null;
+        // …otherwise try resolving a typed name, e.g. "india" -> "in".
+        if (!code) code = COUNTRY_NAME_TO_CODE[lower] || null;
+        // Unrecognised text: best effort, keep what was typed as both fields
+        // rather than silently dropping it — matches the ticker input's
+        // graceful-degradation behaviour elsewhere on this page.
+        const name = code ? COUNTRY_CODE_TO_NAME[code] : val;
+        const finalCode = code || lower;
+        if (!countries.some(c => c.code === finalCode)) {
+          countries.push({ code: finalCode, name });
+          renderCountries();
+        }
+      }
+
+      document.getElementById("countryPicker").addEventListener("change", (e) => {
+        addCountry(e.target.value);
+        e.target.value = "";
+      });
+
       document.getElementById("countryInput").addEventListener("keydown", (e) => {
         const inputEl = e.target;
         if (e.key === "Enter") {
           e.preventDefault();
-          const val = inputEl.value.trim().toLowerCase();
-          if (val && val.length <= 3 && !countries.includes(val)) {
-            countries.push(val);
-            inputEl.value = "";
-            renderCountries();
-          }
+          addCountry(inputEl.value);
+          inputEl.value = "";
         } else if (e.key === "Backspace" && !inputEl.value) {
           countries.pop();
           renderCountries();
@@ -554,7 +623,7 @@
           send_minute: sendMinute,
           stock_watchlist: watchlist,
           news_categories: Array.from(categories),
-          news_countries: countries,
+          news_countries: countries.map(c => c.code),
           active: true
         };
 
