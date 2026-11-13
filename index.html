@@ -326,7 +326,7 @@
 
         <div class="card">
           <div class="card-title">Delivery</div>
-          <div class="card-hint">Where it lands, and when.</div>
+          <div class="card-hint">Where it lands, and when. Already subscribed? Use the same email and fill in the whole form again — your new choices replace the old ones.</div>
           <div class="row2">
             <div>
               <label class="field-label" for="name">Name</label>
@@ -493,7 +493,7 @@
         </div>
 
         <div class="submit-row">
-          <button type="submit" class="submit" id="submitBtn">Start my brief</button>
+          <button type="submit" class="submit" id="submitBtn">Start or update my brief</button>
           <div class="status" id="status"></div>
         </div>
 
@@ -658,52 +658,29 @@
         const sendHour = parseInt(rawH, 10);
         const sendMinute = Math.floor(parseInt(rawM, 10) / 5) * 5;
 
-        const payload = {
-          name: document.getElementById("name").value.trim(),
-          email: document.getElementById("email").value.trim().toLowerCase(),
-          send_hour: sendHour,
-          send_minute: sendMinute,
-          stock_watchlist: watchlist,
-          news_categories: Array.from(categories),
-          news_countries: countries.map(c => c.code),
-          active: true
-        };
-
-        // Insert, not upsert: RLS deliberately blocks UPDATE, because the form
-        // can't prove you own an address. An upsert would let anyone overwrite
-        // another subscriber's settings just by typing their email.
-        const save = (body) => supabaseClient.from("subscribers").insert(body);
-
+        // New signup and "edit my details" are the same action: the database
+        // function save_subscriber (see edit_subscription.sql) creates the row
+        // if the email is new, or REPLACES every setting on the existing row if
+        // it isn't. The page never reads or updates the table itself — it can
+        // only call that one function, which validates every field.
         try {
-          let { error } = await save(payload);
-
-          // `send_minute` only exists after setup.sql has been run. Until then,
-          // save everything else rather than failing the whole submission.
-          let minuteDropped = false;
-          if (error && /send_minute/.test(error.message || "")) {
-            const { send_minute, ...withoutMinute } = payload;
-            ({ error } = await save(withoutMinute));
-            minuteDropped = !error;
-          }
-
-          // 23505 = unique violation, i.e. this address is already signed up.
-          if (error && (error.code === "23505" || /duplicate key/i.test(error.message || ""))) {
-            status.textContent = "That email is already subscribed.";
-            status.className = "status err";
-            return;
-          }
-
+          const { data: outcome, error } = await supabaseClient.rpc("save_subscriber", {
+            p_name: document.getElementById("name").value.trim(),
+            p_email: document.getElementById("email").value.trim().toLowerCase(),
+            p_send_hour: sendHour,
+            p_send_minute: sendMinute,
+            p_stock_watchlist: watchlist,
+            p_news_categories: Array.from(categories),
+            p_news_countries: countries.map(c => c.code)
+          });
           if (error) throw error;
 
           const hh = String(sendHour).padStart(2, "0");
           const mm = String(sendMinute).padStart(2, "0");
-          // The caveat only matters if a non-zero minute was actually requested;
-          // at :00 the fallback lands on the same time anyway.
-          const timeChanged = minuteDropped && sendMinute !== 0;
-          status.textContent = timeChanged
-            ? `Saved — but it'll arrive at ${hh}:00, not ${hh}:${mm} (minute scheduling isn't enabled on the database yet).`
+          status.textContent = outcome === "updated"
+            ? `Updated — your previous settings were replaced. Next brief arrives at ${hh}:${mm} IST.`
             : `You're set. First brief arrives at ${hh}:${mm} IST.`;
-          status.className = timeChanged ? "status" : "status ok";
+          status.className = "status ok";
         } catch (err) {
           status.textContent = `Couldn't save — ${err.message || "check the console for details."}`;
           status.className = "status err";
